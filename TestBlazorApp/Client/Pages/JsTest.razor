@@ -1,0 +1,26 @@
+﻿@page "/js"
+@inject IJSRuntime JS
+
+<button @onclick="ClickTest">
+    클릭
+</button>
+
+@code {
+
+    private IJSObjectReference module;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            module = await JS.InvokeAsync<IJSObjectReference>("import",
+                "./Pages/JsTest.razor.js");
+        }
+    }
+
+    async Task ClickTest()
+    {
+        string msg = "제발";
+        await module.InvokeVoidAsync("Message", msg);
+    }
+}

@@ -1,0 +1,21 @@
+﻿<label>This is Child</label>
+<input value="@mytext" @oninput="OnvalueChanged"/>
+
+@code {
+    string mytext;
+
+    [Parameter]
+    public EventCallback<string> TextEventCallback { get; set; }
+
+    private async Task OnvalueChanged(ChangeEventArgs e)
+    {
+        mytext = e.Value.ToString();
+
+        TextEventCallback.InvokeAsync(mytext);
+    }
+
+    public string GetText()
+    {
+        return mytext;
+    }
+}

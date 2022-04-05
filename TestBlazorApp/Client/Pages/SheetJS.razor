@@ -1,0 +1,58 @@
+﻿@page "/sheetjs"
+
+@inject IJSRuntime js
+
+<h3>SheetJS</h3>
+@*<button @onclick="SaveExcel">save excel</button>*@
+@*<button @onclick="RemoveTag">Remove Tag</button>*@
+
+<table id="resizeMe" class="table">
+    <thead>
+        <tr class="bg-primary">
+            <th class="">이름</th>
+            <th>주소</th>
+            <th>전화번호</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="excludeExport">김개똥</td>
+            <td>서울</td>
+            <td>111-1111</td>
+        </tr>
+        <tr>
+            <td class="excludeExport">흑길동</td>
+            <td>태백</td>
+            <td>222-1111</td>
+        </tr>
+        <tr>
+            <td class="excludeExport">박문수</td>
+            <td>부산</td>
+            <td>333-3333</td>
+        </tr>
+    </tbody>
+</table>
+
+@code {
+    private IJSObjectReference module;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            module = await js.InvokeAsync<IJSObjectReference>("import", "./Pages/SheetJS.razor.js");
+        }
+    }
+
+    async Task SaveExcel()
+    {
+        string id = "testExportId";
+        string filename = "myexcel";
+        string[] arg = { id, filename};
+        await js.InvokeVoidAsync("Excelexport", arg);
+    }
+
+    async Task RemoveTag()
+    {
+        await js.InvokeVoidAsync("RemoveTag");
+    }
+}

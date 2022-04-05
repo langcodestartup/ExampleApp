@@ -1,0 +1,79 @@
+﻿@page "/jsonnode"
+
+@using System.Text
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@using System.Text.Json.Nodes
+@inject HttpClient http
+
+<h3>기본 클래스</h3>
+@if(tests is not null)
+{ 
+    <ol>
+        @foreach (var item in tests)
+        {
+            <li>@($"{item.Name}은(는) {item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")} 고지를 받았다 사실여부: {item.isSelected}" )</li>
+        }
+    </ol>
+}
+
+<h3>Json Node</h3>
+@if(jsonarr is not null)
+{ 
+    <ol>
+        @foreach(JsonNode item in jsonarr)
+        { 
+            <li>@($"{item["Name"]}은(는) {item["CreateTime"].GetValue<DateTime>().ToString("yyyy-MM-dd HH:mm:ss")}에 고지를 받았다 사실여부: {item["isSelected"]}")</li>
+        }
+    </ol>
+}
+<div class="row">
+    <p>
+        <textarea @bind="msg"></textarea>
+        <button @onclick="Jsoncall">테스트 버튼</button>
+    </p>
+
+</div>
+
+
+@code {
+    public class SHTest
+    {
+        public string Name { get; set; }
+        public DateTime CreateTime { get; set; }
+        public bool isSelected { get; set; }
+    }
+
+    public class MYJSON
+    {
+        public Dictionary<string, string> FieldDisplayName;
+        public Dictionary<string, string> FieldTypeName;
+
+    }
+
+    List<SHTest> tests = new();
+    JsonArray jsonarr;
+    string msg;
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        tests.Add(new SHTest() { Name = "홍길동", CreateTime = DateTime.Now.AddHours(1), isSelected=true });
+        tests.Add(new SHTest() { Name = "박문수", CreateTime = DateTime.Now.AddHours(8), isSelected = true });
+        tests.Add(new SHTest() { Name = "변사또", CreateTime = DateTime.Now.AddHours(0), isSelected = false });
+
+
+        var jsonstr = JsonSerializer.Serialize<List<SHTest>>(tests);
+
+        var jsonNode = JsonNode.Parse(jsonstr);
+
+        jsonarr = jsonNode.AsArray();
+
+
+    }
+
+    async Task Jsoncall()
+    {
+        string ff= "Json/TestCall";
+        msg = await http.GetStringAsync(ff);
+    }
+}

@@ -1,0 +1,16 @@
+﻿@page "/textarea"
+
+
+<div class="container">
+    <textarea @oninput="@(e=>myoninput(e, "aa"))">@textvalue</textarea>
+</div>
+
+@code {
+    public string textvalue { get; set; }
+
+    void myoninput(ChangeEventArgs e, string temp)
+    {
+        textvalue = (string)e.Value;
+        Console.WriteLine(temp);
+    }
+}

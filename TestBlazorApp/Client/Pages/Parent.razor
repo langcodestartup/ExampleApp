@@ -1,0 +1,20 @@
+﻿@page "/parent"
+<h3>Parent</h3>
+<Child @ref="child"></Child>
+
+<button @onclick="Click">버튼</button>
+
+@code {
+    Child child;
+
+    protected override void OnInitialized()
+    {
+        child = new Child();
+    }
+
+    async Task Click()
+    {
+        if (child != null)
+            Console.WriteLine(child.GetText());
+    }
+}

@@ -1,0 +1,18 @@
+﻿@page "/input"
+
+
+<div>
+    <input type="date" value="@(dt.ToString("yyyy-MM-dd"))" @onchange="InputOnChange"/>
+</div>
+
+@code {
+
+    DateTime dt = DateTime.Now;
+
+
+    void InputOnChange(ChangeEventArgs e)
+    {
+        dt = DateTime.Parse((string)e.Value);
+        Console.WriteLine(dt.ToString());
+    }
+}
