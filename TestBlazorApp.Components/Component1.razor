@@ -1,0 +1,21 @@
+﻿@using Microsoft.JSInterop
+@inject IJSRuntime js
+@inject ExampleJsInterop ex
+<div class="my-component">
+    This component is defined in the <strong>TestBlazorApp.Components</strong> library.
+</div>
+@Name - @Param1
+
+<button @onclick="Click">Click</button>
+@code{
+    IJSObjectReference module;
+    public string Name { get; set; } = "수현";
+
+    [Parameter]
+    public string Param1 { get; set; }
+
+    private async void Click()
+    {
+        await ex.Prompt("test");
+    }
+}
