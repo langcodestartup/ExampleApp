@@ -1,19 +1,12 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Nodes;
+using Azure.Storage.Blobs;
 
-JsonObject jo = new()
-{
-    ["name"] = "suhyeon",
-    ["age"] = 34,
-};
 
-Person person = JsonSerializer.Deserialize<Person>(jo);
-
-Console.WriteLine(person.address);
-
-class Person
-{
-    public string name { get; set; }
-    public int age { get; set; }
-    public string address { get; set; }
-}
+string connectstring = "DefaultEndpointsProtocol=https;AccountName=spininvoicestorage;AccountKey=KgL7nes7uwlWxwFgY+lTnP7jplC4XODicr7jOXpr+BVemaJ6LAS7GTSuJGmU6XiuoI04nSPyXCyD+AStrxpU4g==;EndpointSuffix=core.windows.net";
+string filepath = @"C:\Users\김수현.AzureAD\Downloads\제목 없음.png";
+BlobServiceClient BlobServiceClient = new BlobServiceClient(connectstring);
+BlobContainerClient BlobContainerClient = BlobServiceClient.GetBlobContainerClient("excel");
+BlobClient BlobClient = BlobContainerClient.GetBlobClient("abc.png");
+await BlobClient.UploadAsync(filepath);
+Console.WriteLine("완료");
