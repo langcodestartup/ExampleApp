@@ -1,0 +1,18 @@
+﻿@page "/upload"
+
+<h3>Upload</h3>
+
+<InputFile OnChange="Uploadtest">upload</InputFile>
+
+@code {
+    private async Task Uploadtest(InputFileChangeEventArgs e)
+    {
+
+        Uri sas = new Uri("https://spininvoicestorage.blob.core.windows.net/excel?sp=racwdl&st=2022-07-13T02:25:43Z&se=2022-07-13T10:25:43Z&spr=https&sv=2021-06-08&sr=c&sig=s%2Fs23kPLwlKMldi0vAg%2Bcx7ui5S%2F%2BsOYXnEnsQrxSPQ%3D");
+        BlobContainerClient BlobContainerClient2 = new BlobContainerClient(sas);
+        BlobClient BlobClient = BlobContainerClient2.GetBlobClient("abc2.png");
+        await BlobClient.UploadAsync(e.File.OpenReadStream());
+
+        Console.WriteLine("완료");
+    }
+}
