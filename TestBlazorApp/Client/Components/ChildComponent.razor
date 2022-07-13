@@ -1,0 +1,8 @@
+﻿@using TestBlazorApp.Client.Pages
+<h3>ChildComponent</h3>
+
+    <GrandChildComponent></GrandChildComponent>
+@code {
+    [CascadingParameter]
+    public CascadingTest cascadingTest{ get; set; }
+}

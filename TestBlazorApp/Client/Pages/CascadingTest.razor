@@ -1,0 +1,15 @@
+﻿@page "/cascadingtest"
+@using TestBlazorApp.Client.Components
+
+<h3>CascadingTest</h3>
+
+<CascadingValue Value="@this">
+    <ChildComponent></ChildComponent>
+</CascadingValue>
+
+@code {
+    public void Test()
+    {
+        Console.WriteLine("Hello this is parent call");
+    }
+}

@@ -1,0 +1,13 @@
+﻿@using TestBlazorApp.Client.Pages
+<h3>GrandChildComponent</h3>
+<button @onclick="@Test">클릭</button>
+@code {
+    [CascadingParameter]
+    public CascadingTest cascadingTest{ get; set; }
+
+    public void Test()
+    {
+        Console.WriteLine("Grand child call parent");
+        cascadingTest.Test();
+    }
+}
