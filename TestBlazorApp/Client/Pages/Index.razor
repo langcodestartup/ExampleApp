@@ -1,15 +1,25 @@
 ﻿@page "/"
+@using System.Net.Http
+@using TestBlazorApp.Shared
+@inject HttpClient Http
 
-
-<div class="h2">
-    <a href="https://localhost:44388/upload">upload</a>
-</div>
-
-<div class="h2">
-    <a href="https://localhost:44388/cascadingtest">Cacading</a>
-</div>
+<button @onclick=GetTest>Get Test</button>
+<button @onclick=PostTest>Post Test</button>
 
 @code{
-    bool iipp = true;
-
+    public async Task GetTest()
+    {        
+        //var res = await Http.PostAsJsonAsync("api/Test","test");
+        //var str = await res.Content.ReadAsStringAsync();
+        //Console.WriteLine(str);
+        await Http.GetAsync("api/Test");
+    }
+    public async Task PostTest()
+    {
+        TestItem test = new() { Name = "SH" };
+        var res = await Http.PostAsJsonAsync("api/Test",test);
+        var str = await res.Content.ReadAsStringAsync();
+        Console.WriteLine(str);
+    }
+    
 }
