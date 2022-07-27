@@ -43,7 +43,11 @@ try
     for (int i = 0; i < numWorkers; i++)
     {
         Test? t = new() { id = Guid.NewGuid().ToString(), Name = "a" };
-        workerTasks.Add(container.CreateItemAsync(t, new PartitionKey(t.id)));
+        workerTasks.Add(container.CreateItemAsync(t, new PartitionKey(t.id))
+            .ContinueWith((task) => {
+                
+                task.Dispose(); 
+            }));
         //workerTasks.Add(Task.Run(() =>
         //{
         //    Test? t = new() { Name ="a"};
